@@ -43,8 +43,6 @@ public class HomeController {
 			result.setResult(ResponseToClient.objectToClient(user));
 			return result;
 		});
-		if(true)
-		throw new  AsyncException("test...");
 
 		return result;
 	}
