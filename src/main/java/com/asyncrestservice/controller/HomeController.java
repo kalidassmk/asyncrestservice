@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -36,7 +38,6 @@ public class HomeController {
         logger.info("Sample Debug Message");
     }
 
-    @Async
     @RequestMapping("/getUser")
     public DeferredResult<JsonNode> getUser() throws AsyncException {
         logger.info("getUser..............");
@@ -53,7 +54,13 @@ public class HomeController {
 
     @Async
     @RequestMapping("/getUser1")
-    public CompletableFuture<JsonNode> get() {
+    public CompletableFuture<JsonNode> get(@RequestParam(required = false, value = "id") String id) {
+        return homeService.getUser().thenApply(user -> ResponseToClient.objectToClient(user)).toCompletableFuture();
+    }
+
+    @Async
+    @RequestMapping("/getUser2/{id}")
+    public CompletableFuture<JsonNode> get(@PathVariable("id") int id) {
         return homeService.getUser().thenApply(user -> ResponseToClient.objectToClient(user)).toCompletableFuture();
     }
 
