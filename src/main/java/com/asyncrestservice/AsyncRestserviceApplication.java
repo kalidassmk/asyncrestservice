@@ -10,9 +10,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @EnableAsync
-public class AsyncrestserviceApplication {
+public class AsyncRestserviceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AsyncrestserviceApplication.class, args);
+		SpringApplication.run(AsyncRestserviceApplication.class, args);
 	}
 }
