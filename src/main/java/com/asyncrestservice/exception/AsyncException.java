@@ -4,7 +4,7 @@ package com.asyncrestservice.exception;
  * @author Kalidass Mahalingam
  *
  */
-public class AsyncException extends Exception {
+public class AsyncException extends Throwable {
 	
 	private static final long serialVersionUID = 1L;
 	

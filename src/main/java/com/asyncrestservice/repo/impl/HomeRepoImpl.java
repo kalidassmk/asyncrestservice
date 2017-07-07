@@ -23,4 +23,10 @@ public class HomeRepoImpl implements HomeRepo {
 		
 	}
 
+	@Override
+	public CompletionStage<User> save(User user) {
+		return	CompletableFuture.supplyAsync(() -> {
+			return user;
+		});	}
+
 }

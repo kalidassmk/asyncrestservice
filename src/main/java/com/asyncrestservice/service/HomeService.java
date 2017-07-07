@@ -11,5 +11,7 @@ import com.asyncrestservice.model.User;
 public interface HomeService {
 
 	public CompletionStage<User> getUser();
+	public CompletionStage<User> save(User user);
+
 
 }

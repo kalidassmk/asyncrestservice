@@ -10,4 +10,5 @@ import com.asyncrestservice.model.User;
  */
 public interface HomeRepo {
 	public CompletionStage<User> getUser();
+	public CompletionStage<User> save(User user);
 }

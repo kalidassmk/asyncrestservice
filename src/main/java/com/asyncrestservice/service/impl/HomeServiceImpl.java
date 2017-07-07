@@ -25,4 +25,9 @@ public class HomeServiceImpl implements HomeService {
 		return homeRepo.getUser();
 	}
 
+	@Override
+	public CompletionStage<User> save(User user) {
+		return homeRepo.save(user);
+	}
+
 }

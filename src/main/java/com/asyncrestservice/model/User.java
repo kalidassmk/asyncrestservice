@@ -1,17 +1,14 @@
 package com.asyncrestservice.model;
 
+import java.io.Serializable;
+
 /**
  * @author Kalidass Mahalingam
  *
  */
-public class User {
+public class User implements Serializable {
 
-	public User(String firstName, String lastName, String address, String mobileNumb) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.address = address;
-		this.mobileNumb = mobileNumb;
+	public User() {
 	}
 
 	private String firstName;
@@ -21,6 +18,15 @@ public class User {
 	private String address;
 
 	private String mobileNumb;
+
+	public User(String firstName, String lastName, String address, String mobileNumb) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.mobileNumb = mobileNumb;
+	}
+
 
 	public String getFirstName() {
 		return firstName;

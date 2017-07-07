@@ -2,14 +2,13 @@ package com.asyncrestservice.controller;
 
 import javax.annotation.PostConstruct;
 
+import com.asyncrestservice.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import com.asyncrestservice.resp.ResponseToClient;
@@ -38,30 +37,32 @@ public class HomeController {
         logger.info("Sample Debug Message");
     }
 
-    @RequestMapping("/getUser")
-    public DeferredResult<JsonNode> getUser() throws AsyncException {
-        logger.info("getUser..............");
-        DeferredResult<JsonNode> result = new DeferredResult<>();
-
-        homeService.getUser().thenApply(user -> {
-            logger.info("user.............." + user.toString());
-            result.setResult(ResponseToClient.objectToClient(user));
-            return result;
-        });
-
-        return result;
+    @Async
+    @RequestMapping(value = "/saveUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompletableFuture<JsonNode> save(@RequestBody User user) {
+        return homeService.save(user).thenApply(userResp -> ResponseToClient.objectToClient(userResp)).toCompletableFuture();
     }
 
     @Async
-    @RequestMapping("/getUser1")
+    @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
     public CompletableFuture<JsonNode> get(@RequestParam(required = false, value = "id") String id) {
         return homeService.getUser().thenApply(user -> ResponseToClient.objectToClient(user)).toCompletableFuture();
     }
 
     @Async
-    @RequestMapping("/getUser2/{id}")
+    @RequestMapping(value = "/getUserById", method = RequestMethod.GET)
     public CompletableFuture<JsonNode> get(@PathVariable("id") int id) {
         return homeService.getUser().thenApply(user -> ResponseToClient.objectToClient(user)).toCompletableFuture();
+    }
+
+    @Async
+    @RequestMapping(value = "/testException", method = RequestMethod.GET)
+    public CompletableFuture<String> get() throws AsyncException {
+        if(true)
+            throw new AsyncException("custome message");
+        return CompletableFuture.supplyAsync(() -> {
+            return "";
+        });
     }
 
 }
