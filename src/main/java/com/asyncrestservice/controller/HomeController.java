@@ -40,24 +40,29 @@ public class HomeController {
     @Async
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<JsonNode> save(@RequestBody User user) {
+        logger.info("save................");
         return homeService.save(user).thenApply(userResp -> ResponseToClient.objectToClient(userResp)).toCompletableFuture();
     }
 
     @Async
     @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
     public CompletableFuture<JsonNode> get(@RequestParam(required = false, value = "id") String id) {
+        logger.info("getAllUser................");
         return homeService.getUser().thenApply(user -> ResponseToClient.objectToClient(user)).toCompletableFuture();
     }
 
     @Async
-    @RequestMapping(value = "/getUserById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getUserById/{id}", method = RequestMethod.GET)
     public CompletableFuture<JsonNode> get(@PathVariable("id") int id) {
+        logger.info("getUserById................");
         return homeService.getUser().thenApply(user -> ResponseToClient.objectToClient(user)).toCompletableFuture();
     }
 
     @Async
     @RequestMapping(value = "/testException", method = RequestMethod.GET)
     public CompletableFuture<String> get() throws AsyncException {
+        logger.info("testException................");
+
         if(true)
             throw new AsyncException("custome message");
         return CompletableFuture.supplyAsync(() -> {

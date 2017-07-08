@@ -1,19 +1,15 @@
 package com.asyncrestservice.exception;
 
 import com.asyncrestservice.resp.ResponseToClient;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
 
-import com.asyncrestservice.util.Json;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.asyncrestservice.resp.ErrorStatus;
 import com.asyncrestservice.resp.ErrorStatus.ErrorType;
 import com.asyncrestservice.resp.Response;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 /**
  * @author Kalidass Mahalingam
@@ -22,8 +18,11 @@ import java.util.concurrent.Future;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+	private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
 	@ExceptionHandler(value = Exception.class)
 	public  Response<Object> handleException(Exception e) {
+		logger.info("exception ................"+e.getMessage());
 		e.printStackTrace();
 		Response<Object> errorResponse = new Response<>();
 		CompletableFuture future = new CompletableFuture();
